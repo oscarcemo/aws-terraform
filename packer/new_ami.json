@@ -1,0 +1,50 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+        "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+        "ami_name_prefix": "demo-aws",
+        "region": "eu-west-1"
+    },
+    "builders": [{
+        "access_key": "{{user `aws_access_key`}}",
+        "ami_name": "{{user `ami_name_prefix`}}-{{isotime | clean_resource_name}}",
+        "instance_type": "t2.micro",
+        "region": "{{user `region`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "source_ami_filter": {
+            "filters": {
+                "virtualization-type": "hvm",
+                "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+                "root-device-type": "ebs"
+            },
+            "owners": ["099720109477"],
+            "most_recent": true
+        },
+        "ssh_username": "ubuntu",
+        "type": "amazon-ebs"
+    }],
+    "provisioners": [{
+            "type": "shell",
+            "inline": [
+                "sudo apt-get update",
+                "sudo apt-get install -y apt-transport-https ca-certificates curl git software-properties-common gnupg-agent",
+                "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
+                "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
+                "sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io",
+                "git clone https://github.com/stayforlong/go-hello-world.git /home/ubuntu/hello"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "./Dockerfile",
+            "destination": "/home/ubuntu/hello/Dockerfile"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "cd /home/ubuntu/hello && sudo docker build -t mygosample .",
+                "sudo docker run --name=aws-demo --restart=always -p 80:80 -d -t mygosample"
+            ]
+        }
+    ]
+}
