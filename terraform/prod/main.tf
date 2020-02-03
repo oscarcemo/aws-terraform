@@ -18,7 +18,7 @@ module "vpc" {
 
   tags = {
     Owner       = "user"
-    Environment = "dev"
+    Environment = "prod"
   }
 
   vpc_tags = {
@@ -64,7 +64,6 @@ module "asg" {
   instance_type   = "t2.micro"
   security_groups = ["${module.ssh_security_group.this_security_group_id}"]
   load_balancers  = ["${module.elb.this_elb_id}"]
-  spot_price      = "0.4"
   key_name        = "${module.key_pair.this_key_pair_key_name}"
 
   ebs_block_device = [
@@ -95,7 +94,7 @@ module "asg" {
   tags = [
     {
       key                 = "Environment"
-      value               = "dev"
+      value               = "prod"
       propagate_at_launch = true
     },
   ]
@@ -142,6 +141,6 @@ module "elb" {
 
   tags = {
     Owner       = "user"
-    Environment = "dev"
+    Environment = "prod"
   }
 }
