@@ -43,7 +43,7 @@ module "ssh_security_group" {
 
 module "key_pair" {
   source = "terraform-aws-modules/key-pair/aws"
-  key_name   = "deployer"
+  key_name   = "deployer_dev"
   public_key = "${var.public_key}"
 }
 
@@ -52,7 +52,7 @@ module "key_pair" {
 module "asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "~> 3.0"
-  name = "aws-demo-with-alb"
+  name = "aws-demo-with-elb"
 
   # Launch configuration
   #
@@ -117,7 +117,7 @@ module "elb_security_group" {
 module "elb" {
   source = "terraform-aws-modules/elb/aws"
 
-  name = "elb-example"
+  name = "elb-dev"
 
   subnets         = "${module.vpc.public_subnets}"
   security_groups = ["${module.elb_security_group.this_security_group_id}","${module.ssh_security_group.this_security_group_id}"]
