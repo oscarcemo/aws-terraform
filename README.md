@@ -6,6 +6,8 @@
 
 * bash + packer + terraform
 
+* > :warning: **Prod enviroment doesn't work properly**: I still don't know.
+
 * Simple bash script asking for enviroment(only two environments: **dev** and **prod**). During the process will ask some parameters:
     * amazon credentials
     * public key to propagate to autoscaling instances
@@ -13,12 +15,10 @@
 ```bash
 ./run.sh dev
 ```
-or
-```bash
-./run.sh prod
-```
 
 ## Considerations
+
+* > :warning: **Prod enviroment doesn't work properly**: I still don't know.
 
 * Only two environments (prod and dev).
 
