@@ -17,19 +17,15 @@ variable "aws_region" {
 variable "vpc_cidr" {
   type = "string"
   description = "CIDR of public VPC"
-  default = "172.16.0.0/16"
+  default = "172.17.0.0/16"
 }
 variable "subnet_cidr" {
   type = "string"
   description = "CIDR of public subnet VPC"
-  default = "172.16.10.0/24"
+  default = "172.17.10.0/24"
 }
-variable "static_ip_address" {
-  type = "list"
-  description = "CIDR of public subnet VPC"
-  default = ["172.16.10.100"]
-}
-  ## AMI
+
+ ## AMI
 
   variable "ami_name_filter" {
    description = "Filter to use to find the AMI by name"

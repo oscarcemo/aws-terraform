@@ -24,11 +24,7 @@ variable "subnet_cidr" {
   description = "CIDR of public subnet VPC"
   default = "172.16.10.0/24"
 }
-variable "static_ip_address" {
-  type = "list"
-  description = "CIDR of public subnet VPC"
-  default = ["172.16.10.100"]
-}
+
   ## AMI
 
   variable "ami_name_filter" {
